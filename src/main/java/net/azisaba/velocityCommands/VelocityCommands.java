@@ -1,8 +1,10 @@
 package net.azisaba.velocityCommands;
 
 import com.google.inject.Inject;
+import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.azisaba.velocityCommands.commands.CommandAlert;
@@ -13,7 +15,10 @@ import org.slf4j.Logger;
 
 import java.util.Objects;
 
-@Plugin(id = "velocitycommands", name = "VelocityCommands", version = "dev")
+@Plugin(id = "velocitycommands",
+        name = "VelocityCommands",
+        version = "dev",
+        dependencies = {@Dependency(id = "velocityredisbridge")})
 public class VelocityCommands {
     private static VelocityCommands instance;
     private final ProxyServer server;
@@ -25,7 +30,7 @@ public class VelocityCommands {
         this.server = server;
     }
 
-    @Subscribe
+    @Subscribe(order = PostOrder.LATE)
     public void onProxyInitialization(ProxyInitializeEvent e) {
         server.getCommandManager().register(new CommandAlert().createCommand()); // /alert
         server.getCommandManager().register(new CommandAlertRaw().createCommand()); // /alertraw

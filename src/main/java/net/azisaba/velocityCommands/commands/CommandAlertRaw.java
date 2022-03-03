@@ -3,10 +3,7 @@ package net.azisaba.velocityCommands.commands;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.proxy.Player;
-import net.azisaba.velocityCommands.VelocityCommands;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.azisaba.velocityredisbridge.VelocityRedisBridge;
 
 public class CommandAlertRaw extends AbstractCommand {
     @Override
@@ -19,17 +16,7 @@ public class CommandAlertRaw extends AbstractCommand {
     }
 
     private static int alert(String json) {
-        Component message;
-        try {
-            message = GsonComponentSerializer.gson().deserialize(json);
-        } catch (RuntimeException e) {
-            message = Component.text(json);
-        }
-        int count = 0;
-        for (Player player : VelocityCommands.getProxy().getAllPlayers()) {
-            player.sendMessage(message);
-            count++;
-        }
-        return count;
+        VelocityRedisBridge.getApi().sendRawMessageToAll(json);
+        return 0;
     }
 }
