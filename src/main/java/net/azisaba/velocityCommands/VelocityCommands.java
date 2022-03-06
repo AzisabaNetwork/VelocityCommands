@@ -18,7 +18,7 @@ import java.util.Objects;
 @Plugin(id = "velocitycommands",
         name = "VelocityCommands",
         version = "dev",
-        dependencies = {@Dependency(id = "velocityredisbridge")})
+        dependencies = {@Dependency(id = "velocity-redis-bridge")})
 public class VelocityCommands {
     private static VelocityCommands instance;
     private final ProxyServer server;

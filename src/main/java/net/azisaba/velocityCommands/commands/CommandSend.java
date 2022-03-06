@@ -10,6 +10,7 @@ import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.azisaba.velocityCommands.VelocityCommands;
 import net.azisaba.velocityCommands.util.Util;
 import net.azisaba.velocityredisbridge.VelocityRedisBridge;
+import net.azisaba.velocityredisbridge.util.PlayerInfo;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -198,16 +199,12 @@ public class CommandSend extends AbstractCommand {
     }
 
     private static int sendPlayerToServer(CommandSource source, String fromPlayer, String toServer) {
-        Optional<Player> player = VelocityCommands.getProxy().getPlayer(fromPlayer);
+        Optional<PlayerInfo> player = VelocityRedisBridge.getApi().getPlayerInfo(fromPlayer);
         if (!player.isPresent()) {
             return sendMessageMissingPlayer(source, fromPlayer);
         }
-        Optional<RegisteredServer> optServer = VelocityCommands.getProxy().getServer(toServer);
-        if (!optServer.isPresent()) {
-            return sendMessageMissingServer(source, toServer);
-        }
-        source.sendMessage(Component.text("Attempting to send " + player.get().getUsername() + " to " + optServer.get().getServerInfo().getName()).color(NamedTextColor.GREEN));
-        VelocityRedisBridge.getApi().sendPlayer(player.get(), optServer.get().getServerInfo().getName());
+        source.sendMessage(Component.text("Attempting to send " + player.get().getUsername() + " to " + toServer).color(NamedTextColor.GREEN));
+        VelocityRedisBridge.getApi().sendPlayer(player.get().getUsername(), toServer);
         //asyncConnectAndShowResults(source, Collections.singletonList(player.get()), optServer.get());
         return 1;
     }
