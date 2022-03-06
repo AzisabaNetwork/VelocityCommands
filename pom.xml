@@ -35,7 +35,7 @@
         <dependency>
             <groupId>com.github.AzisabaNetwork</groupId>
             <artifactId>VelocityRedisBridge</artifactId>
-            <version>main-e249a80e8c-1</version>
+            <version>v1.0.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
