@@ -23,7 +23,7 @@ public class CommandFind extends AbstractCommand {
 
     private static int find(CommandSource source, String player) {
         Optional<PlayerInfo> playerInfo = VelocityRedisBridge.getApi().getPlayerInfo(player);
-        if (!playerInfo.isPresent()) {
+        if (playerInfo.isEmpty()) {
             return sendMessageMissingPlayer(source, player);
         }
         source.sendMessage(

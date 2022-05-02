@@ -23,9 +23,8 @@ public class VelocityCommands {
     private static VelocityCommands instance;
     private final ProxyServer server;
 
-    @SuppressWarnings("unused") // TODO: do i need logger in parameter?
     @Inject
-    public VelocityCommands(ProxyServer server, Logger logger) {
+    public VelocityCommands(ProxyServer server) {
         instance = this;
         this.server = server;
     }
