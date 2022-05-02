@@ -11,7 +11,10 @@ import net.azisaba.velocityCommands.commands.CommandAlert;
 import net.azisaba.velocityCommands.commands.CommandAlertRaw;
 import net.azisaba.velocityCommands.commands.CommandFind;
 import net.azisaba.velocityCommands.commands.CommandSend;
+import net.azisaba.velocityCommands.commands.CommandWhereAmI;
+import net.azisaba.velocityCommands.messages.Messages;
 
+import java.io.IOException;
 import java.util.Objects;
 
 @Plugin(id = "velocitycommands",
@@ -23,9 +26,10 @@ public class VelocityCommands {
     private final ProxyServer server;
 
     @Inject
-    public VelocityCommands(ProxyServer server) {
+    public VelocityCommands(ProxyServer server) throws IOException {
         instance = this;
         this.server = server;
+        Messages.load();
     }
 
     @Subscribe(order = PostOrder.LATE)
@@ -34,6 +38,7 @@ public class VelocityCommands {
         server.getCommandManager().register(new CommandAlertRaw().createCommand()); // /alertraw
         server.getCommandManager().register(new CommandSend().createCommand()); // /send
         server.getCommandManager().register(new CommandFind().createCommand()); // /find
+        server.getCommandManager().register(new CommandWhereAmI().createCommand()); // /whereami
     }
 
     public ProxyServer getServer() {

@@ -1,0 +1,3 @@
+command.whereami.server_id: "&fサーバーID: &e%s"
+command.whereami.proxy_id: "&fプロキシID: &e%s"
+command.whereami.server_host: "&fサーバーホスト: &e%s"
