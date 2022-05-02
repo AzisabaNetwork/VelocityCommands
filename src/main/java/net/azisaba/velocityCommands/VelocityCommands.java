@@ -11,7 +11,6 @@ import net.azisaba.velocityCommands.commands.CommandAlert;
 import net.azisaba.velocityCommands.commands.CommandAlertRaw;
 import net.azisaba.velocityCommands.commands.CommandFind;
 import net.azisaba.velocityCommands.commands.CommandSend;
-import org.slf4j.Logger;
 
 import java.util.Objects;
 

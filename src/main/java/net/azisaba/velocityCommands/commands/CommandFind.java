@@ -7,12 +7,13 @@ import net.azisaba.velocityredisbridge.VelocityRedisBridge;
 import net.azisaba.velocityredisbridge.util.PlayerInfo;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public class CommandFind extends AbstractCommand {
     @Override
-    public LiteralArgumentBuilder<CommandSource> createBuilder() {
+    public @NotNull LiteralArgumentBuilder<CommandSource> createBuilder() {
         return literal("find")
                 .requires(source -> source.hasPermission("velocitycommands.find"))
                 .then(argument("player", StringArgumentType.greedyString())

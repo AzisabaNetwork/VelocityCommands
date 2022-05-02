@@ -10,10 +10,11 @@ import net.azisaba.velocityredisbridge.VelocityRedisBridge;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandAlert extends AbstractCommand {
     @Override
-    public LiteralArgumentBuilder<CommandSource> createBuilder() {
+    public @NotNull LiteralArgumentBuilder<CommandSource> createBuilder() {
         return literal("alert")
                 .requires(source -> source.hasPermission("velocitycommands.alert"))
                 .then(argument("global", BoolArgumentType.bool())

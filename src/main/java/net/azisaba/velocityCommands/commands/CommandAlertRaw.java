@@ -9,10 +9,11 @@ import net.azisaba.velocityCommands.VelocityCommands;
 import net.azisaba.velocityredisbridge.VelocityRedisBridge;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandAlertRaw extends AbstractCommand {
     @Override
-    public LiteralArgumentBuilder<CommandSource> createBuilder() {
+    public @NotNull LiteralArgumentBuilder<CommandSource> createBuilder() {
         return literal("alertraw")
                 .requires(source -> source.hasPermission("velocitycommands.alertraw"))
                 .then(argument("global", BoolArgumentType.bool())
