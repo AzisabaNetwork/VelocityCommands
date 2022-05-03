@@ -3,7 +3,10 @@ package net.azisaba.velocityCommands.util;
 import com.google.common.hash.Hashing;
 import com.velocitypowered.api.proxy.ServerConnection;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,9 +28,12 @@ public class Util {
         return i;
     }
 
-    @NotNull
+    @Nullable
     public static String getIPAddress(@NotNull ServerConnection connection) {
-        return connection.getServerInfo().getAddress().getAddress().getHostAddress();
+        return Optional.ofNullable(connection.getServerInfo().getAddress())
+                .map(InetSocketAddress::getAddress)
+                .map(InetAddress::getHostAddress)
+                .orElse(null);
     }
 
     @SuppressWarnings("UnstableApiUsage")
