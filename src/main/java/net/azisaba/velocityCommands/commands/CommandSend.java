@@ -137,7 +137,7 @@ public class CommandSend extends AbstractCommand {
 
     private static int sendPlayerToServer(CommandSource source, String fromPlayer, String toServer) {
         Optional<PlayerInfo> player = VelocityRedisBridge.getApi().getPlayerInfo(fromPlayer);
-        if (!player.isPresent()) {
+        if (player.isEmpty()) {
             return sendMessageMissingPlayer(source, fromPlayer);
         }
         source.sendMessage(Component.text("Attempting to send " + player.get().getUsername() + " to " + toServer).color(NamedTextColor.GREEN));
