@@ -49,9 +49,10 @@ public class CommandGList extends AbstractCommand {
     }
 
     public static int executeMany(CommandSource source, PlayerListProvider provider, String[] servers) {
+        List<SimplePlayerInfo> players = provider.get();
         int total = 0;
         for (String server : servers) {
-            total += executeSingleServer(source, provider, server);
+            total += executeSingleServer(source, () -> players, server);
         }
         source.sendMessage(Component.empty()
                 .append(Component.text(total, NamedTextColor.GREEN))
