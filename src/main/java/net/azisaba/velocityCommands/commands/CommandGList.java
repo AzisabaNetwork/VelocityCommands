@@ -21,9 +21,9 @@ public class CommandGList extends AbstractCommand {
                 .then(literal("all")
                         .executes(context -> executeAll(context.getSource(), PlayerListProvider.velocityRedisBridge()))
                 )
-                .then(argument("server", StringArgumentType.word())
+                .then(argument("servers", StringArgumentType.greedyString())
                         .suggests(suggestServers())
-                        .executes(context -> executeSingleServer(context.getSource(), PlayerListProvider.velocityRedisBridge(), StringArgumentType.getString(context, "server")))
+                        .executes(context -> executeMany(context.getSource(), PlayerListProvider.velocityRedisBridge(), StringArgumentType.getString(context, "servers").split("\s+")))
                 );
     }
 
@@ -48,10 +48,21 @@ public class CommandGList extends AbstractCommand {
         return 0;
     }
 
+    public static int executeMany(CommandSource source, PlayerListProvider provider, String[] servers) {
+        int total = 0;
+        for (String server : servers) {
+            total += executeSingleServer(source, provider, server);
+        }
+        source.sendMessage(Component.empty()
+                .append(Component.text(total, NamedTextColor.GREEN))
+                .append(Component.text(" players are currently online.", NamedTextColor.YELLOW)));
+        return total;
+    }
+
     public static int executeSingleServer(CommandSource source, PlayerListProvider provider, String server) {
         List<TextComponent> filtered = provider.get()
                 .stream()
-                .filter(player -> player.childServer().equals(server))
+                .filter(player -> player.childServer().equalsIgnoreCase(server))
                 .map(SimplePlayerInfo::username)
                 .map(Component::text)
                 .toList();

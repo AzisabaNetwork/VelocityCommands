@@ -16,9 +16,9 @@ public class CommandPList extends AbstractCommand {
                 .then(literal("all")
                         .executes(context -> CommandGList.executeAll(context.getSource(), PlayerListProvider.velocity()))
                 )
-                .then(argument("server", StringArgumentType.word())
+                .then(argument("servers", StringArgumentType.greedyString())
                         .suggests(suggestServers())
-                        .executes(context -> CommandGList.executeSingleServer(context.getSource(), PlayerListProvider.velocity(), StringArgumentType.getString(context, "server")))
+                        .executes(context -> CommandGList.executeMany(context.getSource(), PlayerListProvider.velocity(), StringArgumentType.getString(context, "servers").split("\s+")))
                 );
     }
 }
