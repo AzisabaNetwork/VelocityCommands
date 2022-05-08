@@ -65,6 +65,7 @@ public class CommandGList extends AbstractCommand {
                 .stream()
                 .filter(player -> player.childServer().equalsIgnoreCase(server))
                 .map(SimplePlayerInfo::username)
+                .sorted()
                 .map(Component::text)
                 .toList();
         source.sendMessage(Component.empty()
