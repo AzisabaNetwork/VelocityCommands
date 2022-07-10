@@ -12,6 +12,7 @@ import net.azisaba.velocityCommands.commands.CommandAlertRaw;
 import net.azisaba.velocityCommands.commands.CommandFind;
 import net.azisaba.velocityCommands.commands.CommandGList;
 import net.azisaba.velocityCommands.commands.CommandPList;
+import net.azisaba.velocityCommands.commands.CommandReconnect;
 import net.azisaba.velocityCommands.commands.CommandSend;
 import net.azisaba.velocityCommands.commands.CommandWhereAmI;
 import net.azisaba.velocityCommands.messages.Messages;
@@ -43,6 +44,7 @@ public class VelocityCommands {
         server.getCommandManager().register(new CommandPList().createCommand()); // /plist
         server.getCommandManager().register(new CommandSend().createCommand()); // /send
         server.getCommandManager().register(new CommandWhereAmI().createCommand()); // /whereami
+        server.getCommandManager().register(new CommandReconnect().createCommand()); // /reconnect
     }
 
     public ProxyServer getServer() {

@@ -28,8 +28,9 @@ public abstract class AbstractCommand {
     @NotNull
     public abstract LiteralArgumentBuilder<CommandSource> createBuilder();
 
+    @Contract(" -> new")
     @NotNull
-    public BrigadierCommand createCommand() {
+    public final BrigadierCommand createCommand() {
         return new BrigadierCommand(createBuilder());
     }
 
