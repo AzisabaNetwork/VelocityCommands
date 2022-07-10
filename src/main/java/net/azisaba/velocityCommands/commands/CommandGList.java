@@ -9,8 +9,10 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CommandGList extends AbstractCommand {
     @Override
@@ -39,9 +41,14 @@ public class CommandGList extends AbstractCommand {
         List<SimplePlayerInfo> players = provider.get();
         players.stream()
                 .map(SimplePlayerInfo::childServer)
+                .filter(Objects::nonNull)
                 .distinct()
                 .sorted()
                 .forEach(server -> executeSingleServer(source, () -> players, server));
+        players.stream()
+                .map(SimplePlayerInfo::childServer)
+                .filter(Objects::isNull)
+                .forEach(server -> executeSingleServer(source, () -> players, null));
         source.sendMessage(Component.empty()
                 .append(Component.text(players.size(), NamedTextColor.GREEN))
                 .append(Component.text(" players are currently online.", NamedTextColor.YELLOW)));
@@ -60,16 +67,20 @@ public class CommandGList extends AbstractCommand {
         return total;
     }
 
-    public static int executeSingleServer(CommandSource source, PlayerListProvider provider, String server) {
+    public static int executeSingleServer(CommandSource source, PlayerListProvider provider, @Nullable String server) {
         List<TextComponent> filtered = provider.get()
                 .stream()
-                .filter(player -> player.childServer().equalsIgnoreCase(server))
+                .filter(player -> Objects.equals(server, player.childServer()))
                 .map(SimplePlayerInfo::username)
                 .sorted()
                 .map(Component::text)
                 .toList();
+        String serverName = server;
+        if (serverName == null) {
+            serverName = "<null>";
+        }
         source.sendMessage(Component.empty()
-                .append(Component.text("[" + server + "] ", NamedTextColor.DARK_AQUA))
+                .append(Component.text("[" + serverName + "] ", NamedTextColor.DARK_AQUA))
                 .append(Component.text("(" + filtered.size() + ")", NamedTextColor.GRAY))
                 .append(Component.text(": "))
                 .append(Component.join(Component.text(", "), filtered)));
