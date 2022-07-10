@@ -2,6 +2,7 @@ package net.azisaba.velocityCommands.messages;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
+import net.azisaba.velocityCommands.util.Util;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -46,7 +47,7 @@ public class Messages {
                 return null;
             }
             Map<Object, Object> map = YAML.load(in);
-            return new MessageInstance(s -> String.valueOf(map.get(s)));
+            return MessageInstance.createSimple(Util.memorize(s -> String.valueOf(map.get(s))));
         }
     }
 
