@@ -13,6 +13,9 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandAlert extends AbstractCommand {
+    private static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER =
+            LegacyComponentSerializer.builder().character('&').extractUrls().hexColors().build();
+
     @Override
     public @NotNull LiteralArgumentBuilder<CommandSource> createBuilder() {
         return literal("alert")
@@ -37,7 +40,7 @@ public class CommandAlert extends AbstractCommand {
                                 .append(Component.text("[").color(NamedTextColor.DARK_GRAY))
                                 .append(Component.text("Alert").color(NamedTextColor.DARK_RED))
                                 .append(Component.text("] ").color(NamedTextColor.DARK_GRAY))
-                                .append(LegacyComponentSerializer.legacyAmpersand().deserialize(message).color(NamedTextColor.WHITE))
+                                .append(LEGACY_COMPONENT_SERIALIZER.deserialize(message).color(NamedTextColor.WHITE))
                 );
             }
         }
