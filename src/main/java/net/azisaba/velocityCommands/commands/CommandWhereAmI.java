@@ -4,7 +4,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import net.azisaba.velocityCommands.messages.Messages;
-import net.azisaba.velocityCommands.util.Util;
 import net.azisaba.velocityredisbridge.VelocityRedisBridge;
 import net.azisaba.velocityredisbridge.util.PlayerInfo;
 import org.jetbrains.annotations.NotNull;
@@ -23,15 +22,14 @@ public class CommandWhereAmI extends AbstractCommand {
         if (!(source instanceof Player player)) {
             throw new AssertionError();
         }
-        Optional<PlayerInfo> opt = VelocityRedisBridge.getApi().getPlayerInfo(player.getUniqueId());
-        if (opt.isEmpty()) {
+        Optional<PlayerInfo> playerInfoOpt = VelocityRedisBridge.getApi().getPlayerInfo(player.getUniqueId());
+        if (playerInfoOpt.isEmpty()) {
             throw new AssertionError();
         }
-        PlayerInfo info = opt.get();
-        Messages.sendFormatted(source, "command.whereami.server_id", info.getChildServer());
-        Messages.sendFormatted(source, "command.whereami.proxy_id", info.getProxyServer());
-        String hashedServer = player.getCurrentServer().map(Util::getIPAddress).map(Util::sha256).map(Util::capAt16).orElse("null");
-        Messages.sendFormatted(source, "command.whereami.server_host", hashedServer);
+        PlayerInfo playerInfo = playerInfoOpt.get();
+        Messages.sendFormatted(source, "command.whereami.server_id", playerInfo.getChildServer());
+        Messages.sendFormatted(source, "command.whereami.proxy_id", System.getenv("POD_NAME"));
+        Messages.sendFormatted(source, "command.whereami.proxy_host", System.getenv("NODE_NAME"));
         return 1;
     }
 }
